@@ -1,18 +1,14 @@
-# Getting Started with Create React App
+# E-Commerce React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I've created this application in React.js framework and some else technologies.
 
-## Available Scripts
+## Application Features
 
-In the project directory, you can run:
+lets explore some features of the application:
 
-### `npm start`
+### `Routing`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+lorem Ips incorrectly interprets the route as a string   and returns a string instead of a
 
 ### `npm test`
 

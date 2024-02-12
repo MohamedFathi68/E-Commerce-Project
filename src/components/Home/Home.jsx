@@ -3,6 +3,6 @@ import './Home.module.css'
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <section className='min-vh-100'>ryuf</section>
   )
 }

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.module.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const validationSchema = Yup.object({
@@ -10,14 +11,27 @@ export default function Register() {
     email: Yup.string().email("email not valid").required("required"),
     password: Yup.string().required("required"),
     rePassword: Yup.string()
-      .oneOf([Yup.ref("password")])
+      .oneOf([Yup.ref("password")], "password does not match")
       .required("required"),
     phone: Yup.string().required("required"),
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   async function callRegister(reqBody) {
-    let { data } = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup",reqBody);
-    console.log(data);
+    let { data } = await axios
+      .post("https://ecommerce.routemisr.com/api/v1/auth/signup", reqBody)
+      .catch((err) => {
+        setIsLoading(true);
+        setErrorMessage(err.response.data.message);
+      });
+    if (data.message === "success") {
+      setIsLoading(true);
+      navigate("/login");
+    }
   }
 
   const registerForm = useFormik({
@@ -36,6 +50,11 @@ export default function Register() {
     <section className="w-75 m-auto py-5">
       <div className="mb-3">
         <h3 className="mb-3">Register Now :</h3>
+        {errorMessage ? (
+          <div class="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        ) : null}
         <form onSubmit={registerForm.handleSubmit}>
           <div className="my-4">
             <input
@@ -94,8 +113,8 @@ export default function Register() {
           <div>
             <input
               type="password"
-              name="re-password"
-              id="re-password"
+              name="rePassword"
+              id="rePassword"
               value={registerForm.values.rePassword}
               onChange={registerForm.handleChange}
               onBlur={registerForm.handleBlur}
@@ -131,7 +150,7 @@ export default function Register() {
           <button
             type="submit"
             className="btn bg-main text-white d-block ms-auto">
-            Register
+            {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Register"}
           </button>
         </form>
       </div>

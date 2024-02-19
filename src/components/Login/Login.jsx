@@ -25,6 +25,7 @@ export default function Login() {
         setErrorMessage(err.response.data.message);
       });
     if (data.message === "success") {
+      localStorage.setItem("userToken", data.token);
       navigate("/home");
     }
   }
@@ -86,7 +87,8 @@ export default function Login() {
           </div>
           <button
             type="submit"
-            className="btn bg-main text-white d-block ms-auto">
+            className="btn bg-main text-white d-block ms-auto"
+            disabled={!(registerForm.isValid && registerForm.dirty)}>
             {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Login"}
           </button>
         </form>

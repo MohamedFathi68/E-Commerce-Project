@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./NavBar.module.css";
 import { Link } from "react-router-dom";
 import  logo  from "./../../assets/images/logo.svg";
+import { TokenContext } from "../../Context/Token";
 
 
 export default function NavBar() {
+
+  let {token} = useContext(TokenContext)
+
+  console.log(token);
   return (
     <nav className="navbar navbar-expand-sm navbar-light bg-light">
       <div className="container">

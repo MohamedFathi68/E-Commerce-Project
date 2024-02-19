@@ -9,6 +9,7 @@ import Register from "./components/Register/Register";
 import Categories from "./components/Categories/Categories";
 import NotFound from "./components/NotFound/NotFound";
 import "./App.css";
+import TokenContextProvider from "./Context/Token";
 
 function App() {
   const routes = createBrowserRouter([
@@ -24,7 +25,12 @@ function App() {
       {path: "*", element: <NotFound/>}
     ] },
   ]);
-  return <RouterProvider router={routes}></RouterProvider>;
+  return <TokenContextProvider>
+      <RouterProvider router={routes}>
+
+</RouterProvider>
+    </TokenContextProvider>
+
 }
 
 export default App;

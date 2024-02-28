@@ -22,10 +22,11 @@ export default function Register() {
   const navigate = useNavigate();
 
   async function callRegister(reqBody) {
+    setIsLoading(true);
     let { data } = await axios
       .post("https://ecommerce.routemisr.com/api/v1/auth/signup", reqBody)
       .catch((err) => {
-        setIsLoading(true);
+        setIsLoading(false);
         setErrorMessage(err.response.data.message);
       });
     if (data.message === "success") {
@@ -42,12 +43,12 @@ export default function Register() {
       rePassword: "",
       phone: "",
     },
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: callRegister,
   });
 
   return (
-    <section className="w-75 m-auto py-5">
+    <section className="w-75 m-auto my-5 py-5">
       <div className="mb-3">
         <h3 className="mb-3">Register Now :</h3>
         {errorMessage ? (
@@ -149,7 +150,8 @@ export default function Register() {
           </div>
           <button
             type="submit"
-            className="btn bg-main text-white d-block ms-auto">
+            className="btn bg-main text-white d-block ms-auto"
+            disabled={!(registerForm.isValid && registerForm.dirty)}>
             {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Register"}
           </button>
         </form>

@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-import './Login.module.css'
+import React, { useContext, useState } from "react";
+import "./Login.module.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { TokenContext } from "../../Context/Token";
 
 export default function Login() {
   const validationSchema = Yup.object({
-    
     email: Yup.string().email("email not valid").required("required"),
     password: Yup.string().required("required"),
   });
+
+  let {setToken} = useContext(TokenContext)
 
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -18,19 +20,22 @@ export default function Login() {
   const navigate = useNavigate();
 
   async function callLogIn(reqBody) {
+    setIsLoading(true);
     let { data } = await axios
       .post("https://ecommerce.routemisr.com/api/v1/auth/signin", reqBody)
       .catch((err) => {
-        setIsLoading(true);
+        setIsLoading(false);
         setErrorMessage(err.response.data.message);
       });
     if (data.message === "success") {
+      setIsLoading(true);
       localStorage.setItem("userToken", data.token);
+      setToken(data.token)
       navigate("/home");
     }
   }
 
-  const registerForm = useFormik({
+  const loginForm = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -40,7 +45,7 @@ export default function Login() {
   });
 
   return (
-    <section className="w-75 m-auto py-5">
+    <section className="w-75 m-auto my-5 py-5">
       <div className="mb-3">
         <h3 className="mb-3">Log in Now :</h3>
         {errorMessage ? (
@@ -48,22 +53,23 @@ export default function Login() {
             {errorMessage}
           </div>
         ) : null}
-        <form onSubmit={registerForm.handleSubmit}>
+        <form onSubmit={loginForm.handleSubmit}>
           <div className="my-4">
             <input
               type="email"
               name="email"
               id="email"
-              value={registerForm.values.email}
-              onChange={registerForm.handleChange}
-              onBlur={registerForm.handleBlur}
+              value={loginForm.values.email}
+              onChange={loginForm.handleChange}
+              onBlur={loginForm.handleBlur}
               className="form-control"
               placeholder="email"
               aria-describedby="helpId"
+              autoComplete="on"
             />
-            {registerForm.errors.email && registerForm.touched.email ? (
+            {loginForm.errors.email && loginForm.touched.email ? (
               <small className="text-danger p-2 ">
-                *{registerForm.errors.email}
+                *{loginForm.errors.email}
               </small>
             ) : null}
           </div>
@@ -72,23 +78,24 @@ export default function Login() {
               type="password"
               name="password"
               id="password"
-              value={registerForm.values.password}
-              onChange={registerForm.handleChange}
-              onBlur={registerForm.handleBlur}
+              value={loginForm.values.password}
+              onChange={loginForm.handleChange}
+              onBlur={loginForm.handleBlur}
               className="form-control"
               placeholder="password"
               aria-describedby="helpId"
+              autoComplete="on"
             />
-            {registerForm.errors.password && registerForm.touched.password ? (
+            {loginForm.errors.password && loginForm.touched.password ? (
               <small className="text-danger p-2 ">
-                *{registerForm.errors.password}
+                *{loginForm.errors.password}
               </small>
             ) : null}
           </div>
           <button
             type="submit"
             className="btn bg-main text-white d-block ms-auto"
-            disabled={!(registerForm.isValid && registerForm.dirty)}>
+            disabled={!(loginForm.isValid && loginForm.dirty)}>
             {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Login"}
           </button>
         </form>

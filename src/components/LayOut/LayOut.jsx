@@ -6,10 +6,12 @@ import { Outlet } from "react-router-dom";
 
 export default function LayOut() {
   return (
-    <div>
+    <>
       <NavBar />
-      <Outlet />
+        <div className="container">
+          <Outlet />
+        </div>
       <Footer />
-    </div>
+    </>
   );
 }

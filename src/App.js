@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createHashRouter } from "react-router-dom";
 import LayOut from "./components/LayOut/LayOut";
 import Home from "./components/Home/Home";
 import Brands from "./components/Brands/Brands";
@@ -24,7 +24,7 @@ function App() {
     }
   }, []);
 
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: "",
       element: <LayOut />,

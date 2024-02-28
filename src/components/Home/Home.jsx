@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <section className="min-vh-100">
       <div className="m-5 p-5">
-        {x}
+        {x} = {x}
       </div>
     </section>
   );

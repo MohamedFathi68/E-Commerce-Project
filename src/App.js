@@ -22,7 +22,7 @@ function App() {
     } else if (localStorage.getItem("userToken") == null) {
       setToken(null);
     }
-  }, []);
+  });
 
   const routes = createBrowserRouter([
     {

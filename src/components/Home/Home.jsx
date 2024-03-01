@@ -1,13 +1,14 @@
 import React from "react";
 import "./Home.module.css";
 import MainSlider from "../MainSlider/MainSlider";
-// import { CounterContext } from "../../Context/Counter";
 
 import img1 from "./../../assets/images/blog-img-1.jpeg";
 import img2 from "./../../assets/images/blog-img-2.jpeg";
+import CategoriesSlider from "../CategoriesSlider/CategoriesSlider";
+import HomeProducts from "../HomeProducts/HomeProducts";
 
 export default function Home() {
-  // let { x } = useContext(CounterContext);
+
 
   return (
     <section className="min-vh-100">
@@ -21,8 +22,12 @@ export default function Home() {
         </div>
       </div>
       <div className="my-5">
-        <h2>Shop Popular Categories :</h2>
-        <div className="categoriesSlider"></div>
+        <div className="CategoriesSlider my-3">
+          <CategoriesSlider/>
+        </div>
+        <div className="HomeProducts my-3">
+          <HomeProducts/>
+        </div>
       </div>
     </section>
   );
